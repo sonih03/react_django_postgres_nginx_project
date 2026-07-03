@@ -1,47 +1,17 @@
-#services:
-#
-#  json-server:
-#    build:
-#      context: ./frontend
-#
-#    container_name: json-server
-#
-#    ports:
-#      - "3001:3001"
-#
-#    restart: unless-stopped
-#
-#  nginx:
-#    build:
-#      context: .
-#      dockerfile: nginx/Dockerfile
-#
-#    container_name: nginx
-#
-#    depends_on:
-#      - json-server
-#
-#    ports:
-#      - "80:80"
-#
-#    restart: unless-stopped
-
-version: '3.8'
-
 services:
   # 🐘 1. 배포용 독립 PostgreSQL 데이터베이스
   db:
     image: postgres:16-alpine
     container_name: production_db
     environment:
-      POSTGRES_DB: mydb          # 생성할 디비 이름
-      POSTGRES_USER: qwe         # 디비 유저명
-      POSTGRES_PASSWORD: qwe # ⚠️ 실제 배포시 강력한 비밀번호로 변경!
+      POSTGRES_DB: kslove_db
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: secure_password123! # ⚠️ 실제 배포시 강력한 비밀번호로 변경!
     volumes:
-      - postgres_data:/var/lib/postgresql/data # 서버가 꺼져도 데이터가 날아가지 않게 보존
+      - postgres_data:/var/lib/postgresql/data
     restart: unless-stopped
     ports:
-      - "5432:5432" # 외부에서 DataGrip으로 접속해서 검문할 때 필요
+      - "5432:5432"
 
   # 🐍 2. 장고 백엔드 서비스
   backend:
@@ -50,25 +20,12 @@ services:
       dockerfile: Dockerfile
     container_name: backend
     depends_on:
-      - db # 🎯 중요: 데이터베이스 컨테이너가 먼저 켜진 후 장고가 켜짐
+      - db
     restart: unless-stopped
     ports:
       - "8000:8000"
 
-  # 💻 3. 리액트 프론트엔드 서비스
-  frontend:
-    build:
-      context: ./frontend
-      dockerfile: Dockerfile
-    container_name: frontend
-    restart: unless-stopped
-    volumes:
-      - ./frontend:/app
-      - /app/node_modules
-    ports:
-      - "3000:3000"
-
-  # 🌐 4. 엔진엑스 프록시 서버 (최전방 문지기)
+  # 🌐 3. 엔진엑스 프록시 + 리액트 정적 서빙 마스터 (최전방 문지기)
   nginx:
     build:
       context: .
@@ -76,11 +33,9 @@ services:
     container_name: nginx
     depends_on:
       - backend
-      - frontend
     ports:
-      - "80:80" # 사용자가 들어오는 80포트를 개방
+      - "80:80"
     restart: unless-stopped
 
-# 💾 데이터 보존을 위한 볼륨 정의
 volumes:
   postgres_data:
