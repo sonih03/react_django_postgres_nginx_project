@@ -1,12 +1,13 @@
 services:
   # 🐘 1. 배포용 독립 PostgreSQL 데이터베이스
+  # 🐘 1. 배포용 독립 PostgreSQL 데이터베이스
   db:
     image: postgres:16-alpine
     container_name: production_db
     environment:
-      POSTGRES_DB: kslove_db
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: secure_password123! # ⚠️ 실제 배포시 강력한 비밀번호로 변경!
+      POSTGRES_DB: mydb          # 🎯 장고 NAME과 일치!
+      POSTGRES_USER: qwe         # 🎯 장고 USER와 일치!
+      POSTGRES_PASSWORD: qwe     # 🎯 장고 PASSWORD와 일치! (이게 컴포즈 비번이야!)
     volumes:
       - postgres_data:/var/lib/postgresql/data
     restart: unless-stopped
