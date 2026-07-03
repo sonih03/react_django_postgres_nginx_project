@@ -1,0 +1,40 @@
+### 윈도우 & IDE 시스템 쓰레기 파일 방지 ###
+.idea/
+.vscode/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.swp
+Thumbs.db
+Desktop.ini
+
+### 🐍 파이썬 & 장고 (Backend) 트랩 방지 ###
+__pycache__/
+*.py[cod]
+*$py.class
+backend/.venv/
+backend/.env
+backend/db.sqlite3
+backend/media/
+
+### 💻 리액트 (Frontend) 무거움 방지 ###
+frontend/node_modules/
+frontend/dist/
+frontend/build/
+frontend/.env.local
+frontend/.env.development.local
+frontend/.env.test.local
+frontend/.env.production.local
+frontend/npm-debug.log*
+frontend/yarn-debug.log*
+frontend/yarn-error.log*
+
+### 🐘 도커 & 엔진엑스 (Infra) 데이터 방지 ###
+# 🚨 절대 금지: 도커 PostgreSQL 데이터가 가상 디렉토리에 마운트될 때 깃에 꼬이는 것 방지
+postgres_data/
+.docker/
+
+### 🔒 개인 백업 및 로그 파일 ###
+*.log
+*.bak
