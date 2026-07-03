@@ -12,6 +12,9 @@ from app.models import Users, Product, Sale
 
 
 def inject_json():
+    if Users.objects.exists():
+            print("💡 [안내] 이미 디비에 강사님 데이터가 수혈되어 있습니다. 주입을 건너뜁니다.")
+            return
     file_path = os.path.join(os.path.dirname(__file__), 'data.json')
 
     with open(file_path, 'r', encoding='utf-8') as f:
