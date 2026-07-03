@@ -60,7 +60,7 @@ DATABASES = {
         'NAME': 'mydb',
         'USER': 'qwe',
         'PASSWORD': 'qwe',
-        'HOST': 'localhost',
+        'HOST': 'db',
         'PORT': '5432',
     }
 }
